@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+
+# FFmpeg-generated streams
+app/streams/
+*.ts
+*.m3u8
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/

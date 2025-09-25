@@ -1,0 +1,17 @@
+# Normalize line endings for code
+*.py text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# Binary files (keep as-is)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mp4 binary
+*.mkv binary
+*.mp3 binary
+*.wav binary
+*.ts binary
+*.m3u8 binary

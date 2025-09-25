@@ -1,0 +1,20 @@
+{
+    "title": "Challenger Center IPAV Camera Config",
+    "version": 1.0,
+    "data": [
+        {
+            "cam_name": "Probe Cam",
+            "stream_url": "http://localhost:8000/streams/Probe_Cam.m3u8",
+            "sequence": 1,
+            "active": true,
+            "rtsp_url": "rtsp://localhost:8554/testvideo"
+        },
+        {
+            "cam_name": "Bridge Cam",
+            "stream_url": "http://localhost:8000/streams/Bridge_Cam.m3u8",
+            "sequence": 2,
+            "active": true,
+            "rtsp_url": "rtsp://localhost:8554/testvideo2"
+        }
+    ]
+}
