@@ -1,4 +1,4 @@
-import os, json, subprocess, threading
+import os, json, subprocess, threading, requests
 from fastapi import FastAPI, Body
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -12,10 +12,24 @@ app = FastAPI()
 # Allow React frontend to access backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],  # Allow all for ngrok/public
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Detect ngrok public URL
+def get_public_url():
+    try:
+        resp = requests.get("http://127.0.0.1:4040/api/tunnels")
+        tunnels = resp.json()["tunnels"]
+        for t in tunnels:
+            if t["proto"] == "https":  # Prefer HTTPS tunnel
+                return t["public_url"]
+        return tunnels[0]["public_url"] if tunnels else "http://localhost:8000"
+    except Exception:
+        return "http://localhost:8000"
+
+BASE_URL = get_public_url()
 
 # Load/save camera config
 def load_config():
@@ -54,10 +68,10 @@ def start_ffmpeg(cam_name: str, input_path: str):
         hls_file
     ]
     subprocess.Popen(cmd)
-    # Update camera config with HTTP URL
+    # Update camera config with public URL
     for cam in cameras["data"]:
         if cam["cam_name"] == cam_name:
-            cam["stream_url"] = f"http://localhost:8000/streams/{safe_name}.m3u8"
+            cam["stream_url"] = f"{BASE_URL}/streams/{safe_name}.m3u8"
     save_config(cameras)
 
 # Start FFmpeg for all active cameras
@@ -83,7 +97,7 @@ async def add_camera(
         "rtsp_url": rtsp_url,
         "sequence": sequence,
         "active": active,
-        "stream_url": f"http://localhost:8000/streams/{safe_name}.m3u8"
+        "stream_url": f"{BASE_URL}/streams/{safe_name}.m3u8"
     }
     cameras["data"].append(new_cam)
     save_config(cameras)
