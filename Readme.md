@@ -37,11 +37,11 @@ Example:
   "version": 1.0,
   "data": [
     {
-      "cam_name": "My Camera",
-      "rtsp_url": "rtsp://192.168.0.101:554/stream1",
-      "sequence": 1,
-      "active": true,
-      "stream_url": ""
+         "cam_name": "Probe Cam",
+            "stream_url": "http://localhost:8000/streams/Probe_Cam.m3u8",
+            "sequence": 1,
+            "active": true,
+            "rtsp_url": "rtsp://localhost:8554/testvideo"
     }
   ]
 }
